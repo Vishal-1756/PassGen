@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .container {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 1em;
+            color: #555;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        input[type="number"], select {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            color: #333;
+            outline: none;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            color: #333;
+            outline: none;
+            margin-bottom: 20px;
+            width: 80%;
+        }
+
+        button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            background-color: #000;
+            color: #fff;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            display: block;
+            margin: 0 auto;
+        }
+
+        button:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Password Generator</h1>
+        <label for="length">Password Length:</label>
+        <input type="number" id="length" value="12" min="6" max="30">
+        <label for="strength">Password Strength:</label>
+        <select id="strength">
+            <option value="hard">Hard</option>
+            <option value="medium">Medium</option>
+            <option value="easy">Easy</option>
+        </select>
+        <br>
+        <input type="text" id="password" readonly>
+        <br>
+        <button id="generate">Generate Password</button>
+    </div>
+
+    <script>
+        const generateButton = document.getElementById('generate');
+        const passwordField = document.getElementById('password');
+        const lengthInput = document.getElementById('length');
+        const strengthSelect = document.getElementById('strength');
+
+        generateButton.addEventListener('click', () => {
+            const password = generatePassword();
+            passwordField.value = password;
+        });
+
+        function generatePassword() {
+            const length = lengthInput.value;
+            const strength = strengthSelect.value;
+            let charset = "";
+
+            if (strength === 'hard') {
+                charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=";
+            } else if (strength === 'medium') {
+                charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            } else if (strength === 'easy') {
+                charset = "abcdefghijklmnopqrstuvwxyz";
+            }
+
+            let password = "";
+            for (let i = 0; i < length; ++i) {
+                const index = Math.floor(Math.random() * charset.length);
+                password += charset[index];
+            }
+            return password;
+        }
+    </script>
+</body>
+</html>
+ 
